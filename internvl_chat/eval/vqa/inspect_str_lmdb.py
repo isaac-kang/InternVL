@@ -120,6 +120,15 @@ def main():
         trust_remote_code=True
     ).eval().cuda()
     
+    # Print GPU information
+    if torch.cuda.is_available():
+        device = torch.cuda.current_device()
+        gpu_name = torch.cuda.get_device_name(device)
+        print(f"Using GPU: {gpu_name} (cuda:{device})")
+        print(f"GPU Memory: {torch.cuda.get_device_properties(device).total_memory / 1024**3:.2f} GB")
+    else:
+        print("Using CPU")
+    
     tokenizer = AutoTokenizer.from_pretrained(args.checkpoint, trust_remote_code=True, use_fast=False)
     
     image_size = model.config.force_image_size or model.config.vision_config.image_size
