@@ -15,6 +15,10 @@ from PIL import Image
 from textvqa_eval import TextVQAAccuracyEvaluator
 from tqdm import tqdm
 
+# Allow custom data paths via environment variables
+import os
+INFOVQA_DATA_PATH = os.path.expanduser('~/data/internvl/infographicsvqa')
+
 ds_collections = {
     'vqav2_val': {
         'train': 'data/vqav2/vqav2_train.jsonl',
@@ -124,16 +128,16 @@ ds_collections = {
         'max_new_tokens': 10,
     },
     'infographicsvqa_val': {
-        'train': 'data/infographicsvqa/train.jsonl',
-        'test': 'data/infographicsvqa/val.jsonl',
-        'annotation': 'data/infographicsvqa/infographicsVQA_val_v1.0_withQT.json',
+        'train': f'{INFOVQA_DATA_PATH}/train.jsonl',
+        'test': f'{INFOVQA_DATA_PATH}/val.jsonl',
+        'annotation': f'{INFOVQA_DATA_PATH}/infographicsVQA_val_v1.0_withQT.json',
         'metric': 'anls',
         'max_new_tokens': 100,
     },
     'infographicsvqa_test': {
-        'train': 'data/infographicsvqa/train.jsonl',
-        'test': 'data/infographicsvqa/test.jsonl',
-        'annotation': 'data/infographicsvqa/infographicsVQA_test_v1.0.json',
+        'train': f'{INFOVQA_DATA_PATH}/train.jsonl',
+        'test': f'{INFOVQA_DATA_PATH}/test.jsonl',
+        'annotation': f'{INFOVQA_DATA_PATH}/infographicsVQA_test_v1.0.json',
         'metric': None,
         'max_new_tokens': 100,
     }
@@ -251,6 +255,10 @@ class VQADataset(torch.utils.data.Dataset):
                     sample['image'],
                     sample['question']) + f" {sample['answer']}"
 
+        # Fix image path for infographicsvqa dataset
+        if not os.path.isabs(image) and image.startswith('data/infographicsvqa/'):
+            image = image.replace('data/infographicsvqa/', os.path.expanduser('~/data/internvl/infographicsvqa/'))
+        
         image = Image.open(image).convert('RGB')
         if self.dynamic_image_size:
             images = dynamic_preprocess(image, image_size=self.input_size,
@@ -371,6 +379,7 @@ def evaluate_chat_model():
                 verbose=True
             )
             answers = [pred]
+            print()  # Add blank line after each prediction for readability
 
             for question, question_id, answer, annotation in zip(questions, question_ids, answers, annotations):
                 if ds_name in ['vqav2_val', 'vqav2_testdev', 'okvqa_val', 'textvqa_val',

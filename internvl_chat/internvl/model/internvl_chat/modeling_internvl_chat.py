@@ -124,7 +124,7 @@ class InternVLChatModel(PreTrainedModel):
             target_modules = ['attention.wqkv', 'attention.wo', 'feed_forward.w1', 'feed_forward.w2', 'feed_forward.w3']
         elif self.llm_arch_name == 'Phi3ForCausalLM':
             target_modules = ['mlp.down_proj', 'mlp.gate_up_proj', 'self_attn.o_proj', 'self_attn.qkv_proj']
-        elif self.llm_arch_name in ['Qwen2ForCausalLM', 'LlamaForCausalLM']:
+        elif self.llm_arch_name in ['Qwen2ForCausalLM', 'Qwen3ForCausalLM', 'LlamaForCausalLM']:
             target_modules = ['self_attn.q_proj', 'self_attn.k_proj', 'self_attn.v_proj', 'self_attn.o_proj',
                               'mlp.gate_proj', 'mlp.down_proj', 'mlp.up_proj']
         else:
