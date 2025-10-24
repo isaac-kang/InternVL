@@ -172,3 +172,88 @@ data_process/
 
 batchscript-*
 results/
+
+# Model weights and checkpoints
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.h5
+*.pb
+*.onnx
+*.tflite
+*.mlmodel
+*.caffemodel
+checkpoints/
+checkpoint/
+pretrained_models/
+pretrained/
+*.weight
+model_weights/
+
+# HuggingFace cache and models
+.cache/
+huggingface/
+transformers_cache/
+*.model
+pytorch_model.bin
+tf_model.h5
+
+# Large data files
+*.lmdb
+*.mdb
+*.hdf5
+*.parquet
+*.arrow
+*.feather
+*.tfrecord
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Dataset directories
+datasets/
+data/
+raw_data/
+processed_data/
+*/data/
+*/datasets/
+
+# Output and temporary files
+outputs/
+output/
+tmp/
+temp/
+logs/
+wandb/
+tensorboard/
+runs/
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.flac
+
+# Compressed archives (often contain large datasets)
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+*.bz2
+*.xz
+
+# IDEs and editors
+.vscode/
+*.swp
+*.swo
+*~
+.idea/
